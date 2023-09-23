@@ -4,5 +4,5 @@ from .views import OpenMainWeb
 from . import views
 
 urlpatterns = [
-    path('', views.OpenMainWeb),
+    path('main', views.OpenMainWeb),
 ]
