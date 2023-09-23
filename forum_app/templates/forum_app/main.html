@@ -1,0 +1,29 @@
+{% extends 'forum_app/base.html' %}
+{% block title %} Форум {% endblock %}
+{% block content %}
+<div class="container">
+    <div class="subforum">
+        <div class="subforum-title">
+            <h1>General Infomation</h1>
+        </div>
+        <div class="subforum-row">
+            <div class="subforum-icon subforum-column">
+                <i class="fa fa-car"></i>
+            </div>
+            <div class="subforum-description subforum-column">
+                <h1><a href="">Description title:</a></h1>
+                <p>Description content: dadadada</p>
+            </div>
+            <div class="subforum-stats subforum-column">
+                <span>24 posts | 14 Topics</span>
+            </div>
+            <div class="subforun-info subforum-column">
+                <b><a href="">Last Post</a></b> by <a href="">JustAUser</a>
+                <br>
+                on <small>22 Dec 2021</small>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
