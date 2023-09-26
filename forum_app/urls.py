@@ -1,8 +1,9 @@
 from django.contrib import admin
 from django.urls import path
-from .views import OpenMainWeb
 from . import views
+from .views import forum_view, ForumDisplay
 
 urlpatterns = [
-    path('main', views.OpenMainWeb),
+
+
 ]
