@@ -1,12 +1,12 @@
 {% extends "forum_app/base.html" %}
 
 {% block content %}
-    <h1>Список форумов</h1>
+    <h1>Список постов</h1>
     <ul>
-    {% for forum in forums %}
+    {% for post in posts %}
         <li>
-            <h2><a href="forums/{{ forum.slug }}">{{ forum.title }}</a></h2>
-            <p>{{ forum.description }}</p>
+            <h2>{{ post.content }}</h2>
+            <p>{{ post.thread }}</p>
         </li>
     {% empty %}
         <li>На данный момент нет форумов.</li>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} {% endblock %}</title>
+    {% block extra_head %} {% endblock %}
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <a href="http://127.0.0.1:8000/forums">Home</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2023, My Website</p>
+    </footer>
+
+    {% block extra_body %}{% endblock %}
+</body>
+</html>

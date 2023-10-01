@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 
 # Create your models here.
@@ -44,9 +44,18 @@ class UserProfile(models.Model):
     signature = models.CharField(max_length=200, blank=True)
     post_count = models.PositiveIntegerField(default=0)
 
+    def increment_post_count(self):
+        self.post_count += 1
+        self.save()
+
     def __str__(self):
         return self.user.username if self.user else ""
 
+@receiver(post_save, sender=Post)
+def increment_post_count(sender, instance, created, **kwargs):
+    if created:
+        profile = UserProfile.objects.get(user=instance.created_by)
+        profile.increment_post_count()
 
 def generate_slug(instance, source_field):
     return slugify(getattr(instance, source_field))
@@ -55,7 +64,7 @@ def generate_slug(instance, source_field):
 @receiver(pre_save, sender=Forum)
 def create_slug(sender, instance, **kwargs):
     if not instance.slug:
-        instance.slug = generate_slug(instance)
+        instance.slug = generate_slug(instance, 'title')
 
 @receiver(pre_save, sender=Thread)
 def create_thread_slug(sender, instance, **kwargs):

@@ -1,0 +1,16 @@
+{% extends "forum_app/base.html" %}
+
+{% block content %}
+    <h1>Список тредов</h1>
+    <ul>
+    {% for thread in threads %}
+        <li>
+            <h2><a href="{{ thread.slug }}">{{ thread.title }}</a></h2>
+            <p>{{ thread.forum }}</p>
+        </li>
+    {% empty %}
+        <li>На данный момент нет тредов.</li>
+    {% endfor %}
+    </ul>
+    {% block extra_body %}{% endblock %}
+{% endblock %}
