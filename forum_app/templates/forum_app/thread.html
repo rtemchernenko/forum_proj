@@ -5,7 +5,7 @@
     <ul>
     {% for thread in threads %}
         <li>
-            <h2><a href="{{ thread.slug }}">{{ thread.title }}</a></h2>
+            <h2><a href="{% url 'post_list' forum_slug=forum.slug thread_slug=thread.slug %}">{{ thread.title }}</a></h2>
             <p>{{ thread.forum }}</p>
         </li>
     {% empty %}

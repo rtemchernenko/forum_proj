@@ -1,6 +1,8 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="{% static 'forum_app/style.css' %}">
     <meta charset="UTF-8">
     <title>{% block title %} {% endblock %}</title>
     {% block extra_head %} {% endblock %}
@@ -21,7 +23,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2023, My Website</p>
+        <p>&copy; 2023, Artem Chernenko</p>
     </footer>
 
     {% block extra_body %}{% endblock %}

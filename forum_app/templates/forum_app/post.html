@@ -3,14 +3,9 @@
 {% block content %}
     <h1>Список постов</h1>
     <ul>
-    {% for post in posts %}
-        <li>
-            <h2>{{ post.content }}</h2>
-            <p>{{ post.thread }}</p>
-        </li>
-    {% empty %}
-        <li>На данный момент нет форумов.</li>
-    {% endfor %}
+{% for post in posts %}
+    <li><p>{{ post.content }}</p><p>By {{ post.created_by }}</p></li>
+{% endfor %}
     </ul>
     {% block extra_body %}{% endblock %}
 {% endblock %}

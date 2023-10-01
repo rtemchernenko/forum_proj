@@ -5,7 +5,7 @@
     <ul>
     {% for forum in forums %}
         <li>
-            <h2><a href="forums/{{ forum.slug }}">{{ forum.title }}</a></h2>
+            <h2><a href="{{ forum.slug }}">{{ forum.title }}</a></h2>
             <p>{{ forum.description }}</p>
         </li>
     {% empty %}
