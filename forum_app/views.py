@@ -11,7 +11,7 @@ from django.views import View
 
 # Create your views here.
 
-
+# Отображение контента
 class ForumListView(ListView):
     model = Forum
     template_name = 'forum_app/forum.html'  # Подменяем имя шаблона, если по умолчанию не подходит
@@ -46,3 +46,9 @@ class PostListView(ListView):
         context = super().get_context_data(**kwargs)
         context['thread'] = self.thread
         return context
+
+    # Регистрация
+
+
+def profile_view(request):
+    return render(request, 'forum_app/profile.html')

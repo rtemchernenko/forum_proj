@@ -40,6 +40,7 @@ class Post(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    email = models.EmailField()
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
     signature = models.CharField(max_length=200, blank=True)
     post_count = models.PositiveIntegerField(default=0)
@@ -51,11 +52,13 @@ class UserProfile(models.Model):
     def __str__(self):
         return self.user.username if self.user else ""
 
+
 @receiver(post_save, sender=Post)
 def increment_post_count(sender, instance, created, **kwargs):
     if created:
         profile = UserProfile.objects.get(user=instance.created_by)
         profile.increment_post_count()
+
 
 def generate_slug(instance, source_field):
     return slugify(getattr(instance, source_field))
@@ -65,6 +68,7 @@ def generate_slug(instance, source_field):
 def create_slug(sender, instance, **kwargs):
     if not instance.slug:
         instance.slug = generate_slug(instance, 'title')
+
 
 @receiver(pre_save, sender=Thread)
 def create_thread_slug(sender, instance, **kwargs):
