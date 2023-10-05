@@ -1,16 +1,26 @@
 {% extends "forum_app/base.html" %}
 
 {% block content %}
-    <h1>Список тредов</h1>
+    <h1>Список тредов:</h1>
+<div class="listcontent">
     <ul>
     {% for thread in threads %}
         <li>
-            <h2><a href="{% url 'post_list' forum_slug=forum.slug thread_slug=thread.slug %}">{{ thread.title }}</a></h2>
+            <h2><a href="{{ thread.slug }}/posts/">{{ thread.title }}</a></h2>
+
             <p>{{ thread.forum }}</p>
         </li>
+
     {% empty %}
         <li>На данный момент нет тредов.</li>
     {% endfor %}
     </ul>
+    </div>
     {% block extra_body %}{% endblock %}
 {% endblock %}
+
+<h2><a href="{% url 'post_list' forum_slug=forum.slug thread_slug=thread.slug %}">{{ thread.title }}</a></h2>
+            <h2><a href="threads/{{ thread.slug }}/">{{ thread.title }}</a></h2>
+
+http://127.0.0.1:8000/forums/avtomobili/threads/avtomobili/threads/hyundai/ Жопный
+http://127.0.0.1:8000/forums/avtomobili/threads/hyundai/

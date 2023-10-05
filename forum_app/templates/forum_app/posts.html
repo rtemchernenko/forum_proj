@@ -1,0 +1,21 @@
+{% extends "forum_app/base.html" %}
+
+{% block content %}
+<h1>Посты:</h1>
+
+<div class="listcontent">
+    <ul>
+        {% for post in posts %}
+        <li>
+            <h2><a href="{{ post.slug }}/">{{ post.title }}</a>
+
+                <p>{{ post.content }}</p>
+                <p>By {{ post.created_by }}</p></h2>
+        </li>
+
+        {% empty %}
+        <li>На данный момент нет постов.</li>
+        {% endfor %}
+    </ul>
+    {% block extra_body %}{% endblock %}
+    {% endblock %}

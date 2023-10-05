@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'forum_app/style.css' %}">
+    <title>Login</title>
+</head>
+<body>
+<header>
+        <nav>
+            <ul>
+                <a href="http://127.0.0.1:8000/forums">Home</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+                <a href="http://127.0.0.1:8000/profile">Профиль</a>
+            </ul>
+        </nav>
+    </header>
+<div class="wrapper">
+    <div class="site_name">
+        Forum
+    </div>
+    <form class="login_form" method="post">
+        {% csrf_token %}
+        <div class="form-field d-flex align-items-center">
+            <span class="far fa-user"></span>
+            <input type="text" name="username" id="userName" placeholder="Username">
+        </div>
+        <div class="form-field d-flex align-items-center">
+            <span class="password_name"></span>
+            <input type="password" name="password" id="pwd" placeholder="Password">
+        </div>
+        {{ form.errors }}
+        <button class="login_text">Login</button>
+    </form>
+    <div class="reset_password">
+        <a href="{% url 'password_reset' %}">Forget password?</a> or <a href="{% url 'register' %}">Sign
+        up</a>
+    </div>
+</div>
+</body>
+</html>

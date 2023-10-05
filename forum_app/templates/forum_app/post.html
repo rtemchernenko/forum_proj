@@ -1,11 +1,25 @@
 {% extends "forum_app/base.html" %}
 
 {% block content %}
-    <h1>Список постов</h1>
-    <ul>
-{% for post in posts %}
-    <li><p>{{ post.content }}</p><p>By {{ post.created_by }}</p></li>
+<h1>Пост:</h1>
+<div class="listcontent">
+
+    <h1>{{ post.title }}</h1>
+    <p>{{ post.content }}</p>
+    {% for comment in comments %}
+    <div>
+        <p>{{ comment.created_by.username }}</p>
+        <p>{{ comment.content }}</p>
+        <p>{{ comment.created_at }}</p>
+    </div>
 {% endfor %}
-    </ul>
-    {% block extra_body %}{% endblock %}
+</div>
+<!-- Comment form -->
+<form method="POST">
+    {% csrf_token %}
+    {{ comment_form.as_p }}
+    <input type="submit" value="Submit Comment">
+</form>
+
+{% block extra_body %}{% endblock %}
 {% endblock %}

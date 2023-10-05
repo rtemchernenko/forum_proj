@@ -19,8 +19,8 @@ class ThreadAdmin(admin.ModelAdmin):
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('content', 'thread', 'created_by', 'created_at')
-    prepopulated_fields = {'slug': ('content',)}
+    list_display = ('title', 'content', 'thread', 'created_by', 'created_at')
+    prepopulated_fields = {'slug': ('title',)}
     list_editable = ('thread', 'created_by', )
 
 

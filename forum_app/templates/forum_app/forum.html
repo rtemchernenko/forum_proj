@@ -1,16 +1,18 @@
 {% extends "forum_app/base.html" %}
 
 {% block content %}
-    <h1>Список форумов</h1>
-    <ul>
+    <h1>Список форумов:</h1>
+<div class="listcontent">
+<ul>
     {% for forum in forums %}
         <li>
-            <h2><a href="{{ forum.slug }}">{{ forum.title }}</a></h2>
+            <h2><a href="{{ forum.slug }}/threads/">{{ forum.title }}</a></h2>
             <p>{{ forum.description }}</p>
         </li>
     {% empty %}
         <li>На данный момент нет форумов.</li>
     {% endfor %}
     </ul>
+</div>
     {% block extra_body %}{% endblock %}
 {% endblock %}

@@ -2,6 +2,8 @@ from django.db import models
 from django.utils.text import slugify
 from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
+from django.utils import timezone
+import datetime
 
 # Create your models here.
 from django.contrib.auth.models import User  # Для использования внутренней модели пользователя Django
@@ -20,7 +22,7 @@ class Thread(models.Model):
     title = models.CharField(max_length=200)
     forum = models.ForeignKey(Forum, on_delete=models.CASCADE)
     started_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=timezone.now)
     slug = models.SlugField(max_length=100, unique=True, blank=True)
 
     def __str__(self):
@@ -28,10 +30,11 @@ class Thread(models.Model):
 
 
 class Post(models.Model):
+    title = models.TextField(max_length=200)
     content = models.TextField()
     thread = models.ForeignKey(Thread, on_delete=models.CASCADE)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(default=timezone.now)
     slug = models.SlugField(max_length=100, unique=True, blank=True)
 
     def __str__(self):
@@ -40,7 +43,6 @@ class Post(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    email = models.EmailField()
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
     signature = models.CharField(max_length=200, blank=True)
     post_count = models.PositiveIntegerField(default=0)
@@ -51,6 +53,22 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username if self.user else ""
+
+
+class Comment(models.Model):
+    content = models.TextField()
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"Comment by {self.created_by.username} on {self.post.slug}"
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
 
 
 @receiver(post_save, sender=Post)
@@ -79,4 +97,4 @@ def create_thread_slug(sender, instance, **kwargs):
 @receiver(pre_save, sender=Post)
 def create_post_slug(sender, instance, **kwargs):
     if not instance.slug:
-        instance.slug = generate_slug(instance, 'content')[:50]
+        instance.slug = generate_slug(instance, 'title')[:50]
