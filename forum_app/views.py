@@ -56,6 +56,7 @@ class PostDetailView(DetailView):
     model = Post
     slug_field = 'slug'
     template_name = 'forum_app/post.html'
+    context_object_name = 'post'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -64,12 +65,15 @@ class PostDetailView(DetailView):
         return context
 
 
-# class PostDetailView(ListView, FormMixin):
+# class PostDetailView(DetailView, FormMixin):
 #     model = Post
-#     template_name = 'forum_app/posts.html'
-#     context_object_name = 'posts'
+#     slug_field = 'slug'
+#     template_name = 'forum_app/post.html'
+#     context_object_name = 'post'
 #     form_class = CommentForm
-#     success_url = reverse_lazy('post_list')
+#
+#     def get_success_url(self):
+#         return reverse_lazy('post_detail', kwargs={'pk': self.get_object().id})
 #
 #     def post(self, request, *args, **kwargs):
 #         form = self.get_form()
@@ -81,18 +85,19 @@ class PostDetailView(DetailView):
 #     def form_valid(self, form):
 #         self.object = form.save(commit=False)
 #         self.object.post = self.get_object()
-#         self.object.author = self.request.user
+#         self.object.created_by = self.request.user
 #         self.object.save()
 #         return super().form_valid(form)
 #
-#     def get_queryset(self):
-#         self.thread = get_object_or_404(Thread, slug=self.kwargs['thread_slug'])
-#         return Post.objects.filter(thread=self.thread)
+# def get_queryset(self):
+#     self.thread = get_object_or_404(Thread, slug=self.kwargs['thread_slug'])
+#     return Post.objects.filter(thread=self.thread)
 #
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['thread'] = self.thread
-#         return context
+# def get_context_data(self, **kwargs):
+#     context = super().get_context_data(**kwargs)
+#     context['thread'] = self.thread
+#     return context
+
 
 # Регистрация
 

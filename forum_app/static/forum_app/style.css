@@ -155,6 +155,57 @@ submit_btn:hover {
     background-color: #0056b3;
 }
 
+/* Комментарии */
+
+.comments {
+    width: 80%;
+    margin: 0 auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 1.5em;
+    background-color: #f2f2f2;
+}
+
+.comments p{
+    padding: .5em 0;
+}
+
+.comments p:nth-child(1) {
+    font-weight: bold;
+}
+
+.comments p:nth-child(3) {
+    font-size: 0.8em;
+    color: #666;
+}
+
+.comment_form {
+    width: 80%;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.comment_form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.comment_form input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    background-color: #007BFF;
+    cursor: pointer;
+}
+
+.comment_form input[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+
 /* Отображение контента */
 
 h1{
