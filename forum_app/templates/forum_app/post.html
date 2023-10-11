@@ -12,21 +12,25 @@
         </li>
     </ul>
 
-    {% for comment in comments %}
-    <div class="comments">
-        <p>{{ comment.created_by.username }}</p>
-        <p>{{ comment.content }}</p>
-        <p>{{ comment.created_at }}</p>
-    </div>
+{% for comment in comments %}
+  <div class="comments">
+    <p>{{ comment.content }}</p>
+    <p>By {{ comment.created_by.username }}</p>
+    <a href="{% url 'comment_delete' comment.pk %}">Удалить</a>
+  </div>
+
 {% endfor %}
 </div>
 <!-- Comment form -->
-<div class="comment_form">
-<form method="POST">
-    {% csrf_token %}
-    {{ comment_form.as_p }}
-    <input type="submit" value="Оправить">
-</form>
+<div class="comment_form my-custom-style">
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ comment_form.content.label_tag }}
+            {{ comment_form.content }}
+        </div>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
 </div>
 {% block extra_body %}{% endblock %}
 {% endblock %}

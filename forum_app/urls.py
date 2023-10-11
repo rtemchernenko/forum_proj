@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django.urls import path
 from . import views
-from .views import ForumListView, ThreadListView, profile_view, RegisterView, PostListView, PostDetailView
+from .views import ForumListView, ThreadListView, profile_view, RegisterView, PostListView, PostDetailView, \
+    CommentDeleteView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -15,7 +16,7 @@ urlpatterns = [
          name='post_detail'),
     path('profile', profile_view, name='profile'),
     path('register', RegisterView.as_view(), name='register'),
-
+    path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment_delete'),
 ]
 
 if settings.DEBUG:

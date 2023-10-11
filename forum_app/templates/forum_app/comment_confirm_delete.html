@@ -1,0 +1,9 @@
+{% extends "forum_app/base.html" %}
+
+{% block content %}
+  <h2>Вы уверены, что хотите удалить этот комментарий?</h2>
+  <form method="post">
+    {% csrf_token %}
+    <input type="submit" class="btn btn-danger" value="Удалить">
+  </form>
+{% endblock %}

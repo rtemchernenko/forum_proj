@@ -115,45 +115,6 @@ footer p {
     text-decoration: underline;
 }
 
-/* Комментарии */
-
-.add_comments {
-    margin: 0 auto;
-    width: 50%;
-    padding: 20px;
-    box-sizing: border-box;
-    background-color: #f9f9f9;
-    border: 1px solid #e0e0e0;
-    border-radius: 5px;
-    margin-top: 20px;
-}
-
-.add_comments form {
-    display: flex;
-    flex-direction: column;
-}
-
-form#add_form input, form#add_form textarea {
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #e0e0e0;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-submit_btn-primary {
-    color: white;
-    background-color: #007bff;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-submit_btn:hover {
-    background-color: #0056b3;
-}
 
 /* Комментарии */
 
@@ -179,33 +140,48 @@ submit_btn:hover {
     font-size: 0.8em;
     color: #666;
 }
-
 .comment_form {
-    width: 80%;
-    margin: 0 auto;
+    width: 300px;
+    height: 200px;
+    border: 1px solid #ccc;
     padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
 }
 
-.comment_form form {
-    display: flex;
-    flex-direction: column;
+.form-group {
+    margin-bottom: 15px;
 }
 
-.comment_form input[type="submit"] {
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input, .form-group textarea {
     width: 100%;
     padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
     border: none;
-    border-radius: 5px;
-    color: white;
-    background-color: #007BFF;
     cursor: pointer;
+    border-radius: 4px;
 }
 
-.comment_form input[type="submit"]:hover {
-    background-color: #0056b3;
+.btn-primary {
+    background-color: #3498db;
+    color: #fff;
 }
 
-
+.btn-primary:hover {
+    background-color: #2980b9;
+}
 /* Отображение контента */
 
 h1{
@@ -247,106 +223,100 @@ h1{
 }
 /* Аккаунт */
 
-.account_container{
+/* Общий контейнер для профиля */
+.account_container {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 40vh; /* Use this if you want to center the card vertically,
-                      otherwise remove it. vh stands for viewport height */
+    height: 100vh;
+    background-color: #f9f9f9;
 }
 
-.account_card{
-    position: relative;
-    width: 350px;
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 10px 20px rgba(0,0,0,0.1);
-}
-
-
-.account_imagine .image{
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background: #ccc;
-    margin-bottom: 10px;
-}
-
-.profile_image img {
-    width: 100px; /* Задайте нужную ширину */
-    height: 100px; /* Задайте нужную высоту */
-    border-radius: 50%; /* Это создаст эффект округления */
-    object-fit: cover; /* Это поможет сохранить пропорции изображения при обрезке */
-}
-
-.account_info{
-    padding-left: 15px;
-}
-
-.account_info .account_name{
-    margin: 0 0 10px 0;
-    font-size: 18px;
-}
-
-.account_info span{
-    font-size: 14px;
-    color: #555;
-}
-
-.account_info .account_text{
+/* Карточка профиля */
+.account_card {
     display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
 }
 
-.account_info .account_text .d-flex{
+/* Изображение профиля */
+.profile_image img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+/* Информация о пользователе */
+.account_info {
     display: flex;
     flex-direction: column;
 }
 
-.account_info .account_text span{
-    text-align: center;
+.account_name {
+    font-size: 24px;
+    margin-bottom: 5px;
 }
 
-.account_btns{
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-.account_btns button{
+/* Кнопки */
+.account_btns button {
+    margin-top: 10px;
+    margin-right: 10px;
     padding: 10px 20px;
-    border-radius: 50px;
     border: none;
-    outline: none;
+    border-radius: 5px;
     cursor: pointer;
-    transition: 0.3s;
+    font-size: 16px;
 }
 
-.account_btns .On_main_btn{
-    background: #6c63fe;
-    color: #fff;
+.On_main_btn {
+    background-color: #333333;
+    color: white;
 }
 
-.account_btns .On_main_btn:hover{
-    background: #4b46cd;
+.Change_password_btn {
+    background-color: #333333;
+    color: white;
 }
 
-.account_btns .Change_password_btn{
-    background: #ff4757;
-    color: #fff;
+.Logout_btn {
+    background-color: #e74c3c;
+    color: white;
 }
 
-.account_btns .Change_password_btn:hover{
-    background: #cd3446;
+.change-avatar {
+    max-width: 200px;
+
 }
 
-.account_btns .Logout_btn{
-    background: #2ed573;
-    color: #fff;
+.change-avatar h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
 }
 
-.account_btns .Logout_btn:hover{
-    background: #24a352;
+.change-avatar form {
+    display: flex;
+    flex-direction: column;
+}
+
+.change-avatar label {
+    margin-bottom: 5px;
+}
+
+.change-avatar button {
+    margin-top: 10px;
+    margin-right: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    background-color: #333333;
+}
+
+.change-avatar button:hover {
+    background-color: #2980b9;
 }
