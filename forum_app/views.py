@@ -8,10 +8,12 @@ from django.views.generic.base import TemplateView
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormView, CreateView, UpdateView, FormMixin, DeleteView
 
-from .forms import RegisterForm, CommentForm, AvatarUploadForm
+from .forms import RegisterForm, CommentForm, AvatarUploadForm, CreatePostForm
 from .models import Forum, Thread, Post, UserProfile, Comment
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views import View
+from django.utils.text import slugify
+import uuid
 
 
 # Create your views here.
@@ -145,3 +147,36 @@ def profile_view(request):
         form = AvatarUploadForm()
 
     return render(request, 'forum_app/profile.html', {'form': form, 'user_profile': user_profile})
+
+
+class CreatePostView(FormView):
+    form_class = CreatePostForm
+    template_name = 'forum_app/creation-post.html'
+    success_url = reverse_lazy("create-post")
+
+    def form_valid(self, form):
+        # Создаем новый пост, но не сохраняем его пока
+        new_post = form.save(commit=False)
+
+        # Генерируем уникальный slug на основе заголовка поста
+        unique_slug = f"{slugify(new_post.title)}-{str(uuid.uuid4())[:8]}"
+        new_post.slug = unique_slug
+
+        # Устанавливаем автора
+        new_post.created_by = self.request.user
+
+        # Сохраняем пост
+        new_post.save()
+
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['threads'] = Thread.objects.all()  # Добавляем темы в контекст
+        return context
+
+
+class GetThreadsForForumView(View):
+    def get(self, request, forum_id):
+        threads = Thread.objects.filter(forum_id=forum_id).values('id', 'title')
+        return JsonResponse(list(threads), safe=False)

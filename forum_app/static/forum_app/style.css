@@ -320,3 +320,59 @@ h1{
 .change-avatar button:hover {
     background-color: #2980b9;
 }
+
+
+/* Новый пост форма */
+
+/* Стили для контейнера формы */
+.form-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Стили для заголовков формы */
+.form-container .form-label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+}
+
+/* Стили для выпадающего списка */
+.select-thread {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+/* Стили для текстовых полей */
+.form-container input[type="text"],
+.form-container textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+/* Стили для кнопки */
+.form-container .form-submit-button {
+    padding: 10px 20px;
+    background-color: #007BFF;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.form-container .form-submit-button:hover {
+    background-color: #0056b3;
+}

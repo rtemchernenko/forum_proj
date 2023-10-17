@@ -1,0 +1,56 @@
+{% extends "forum_app/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="form-container">
+    <form method="post" class="post-form" id="postForm">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.forum.id_for_label }}" class="form-label">Форум:</label>
+            {{ form.forum }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.thread.id_for_label }}" class="form-label">Тред:</label>
+            <select id="id_thread" name="thread" class="form-select select-thread">
+                <option value="" selected="selected">---------</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="{{ form.title.id_for_label }}" class="form-label">Заголовок:</label>
+            {{ form.title }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.content.id_for_label }}" class="form-label">Текст поста:</label>
+            {{ form.content }}
+        </div>
+        <button type="submit" class="btn btn-primary form-submit-button">Создать пост</button>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const forumSelect = document.getElementById('id_forum');
+    const threadSelect = document.getElementById('id_thread');
+
+    forumSelect.addEventListener('change', function() {
+        const forumId = this.value;
+        threadSelect.innerHTML = '<option value="">---------</option>';  // Очищаем текущие варианты тем
+
+        // Если выбран форум, отправляем AJAX запрос для получения тем этого форума
+        if (forumId) {
+            fetch(`/get_threads_for_forum/${forumId}`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(thread => {
+                        const option = document.createElement('option');
+                        option.value = thread.id;
+                        option.textContent = thread.title;
+                        threadSelect.appendChild(option);
+                    });
+                });
+        }
+    });
+});
+</script>
+{% endblock %}

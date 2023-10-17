@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 from .views import ForumListView, ThreadListView, profile_view, RegisterView, PostListView, PostDetailView, \
-    CommentDeleteView
+    CommentDeleteView, CreatePostView, GetThreadsForForumView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -17,6 +17,8 @@ urlpatterns = [
     path('profile', profile_view, name='profile'),
     path('register', RegisterView.as_view(), name='register'),
     path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment_delete'),
+    path('create-post', CreatePostView.as_view(), name='create-post'),
+    path('get_threads_for_forum/<int:forum_id>/', GetThreadsForForumView.as_view(), name='get_threads_for_forum'),
 ]
 
 if settings.DEBUG:
