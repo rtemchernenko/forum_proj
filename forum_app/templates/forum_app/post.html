@@ -16,7 +16,9 @@
   <div class="comments">
     <p>{{ comment.content }}</p>
     <p>By {{ comment.created_by.username }}</p>
-    <a href="{% url 'comment_delete' comment.pk %}">Удалить</a>
+      {% if user.is_authenticated and user.username == comment.created_by.username %}
+        <a href="{% url 'forum_app:comment_delete' comment.pk %}">Удалить</a>
+      {% endif %}
   </div>
 
 {% endfor %}

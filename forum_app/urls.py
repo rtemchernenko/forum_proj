@@ -6,7 +6,7 @@ from .views import ForumListView, ThreadListView, profile_view, RegisterView, Po
 from django.conf import settings
 from django.conf.urls.static import static
 
-# app_name = 'forum_app'
+app_name = 'forum_app'
 
 urlpatterns = [
     path('forums/', ForumListView.as_view(), name='forum_list'),

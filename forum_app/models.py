@@ -4,9 +4,10 @@ from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 from django.utils import timezone
 import datetime
+from django.contrib.auth.models import User
+
 
 # Create your models here.
-from django.contrib.auth.models import User  # Для использования внутренней модели пользователя Django
 
 
 class Forum(models.Model):
@@ -43,7 +44,7 @@ class Post(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+    avatar = models.ImageField(upload_to='avatars/', blank=True, default='avatars/avatar13.jpg')
     signature = models.CharField(max_length=200, blank=True)
     post_count = models.PositiveIntegerField(default=0)
 

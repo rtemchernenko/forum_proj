@@ -1,19 +1,17 @@
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, get_object_or_404
-from django.core.files import File
 from django.urls import reverse_lazy
-from django.utils import timezone
-from django.views.generic.base import TemplateView
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import FormView, CreateView, UpdateView, FormMixin, DeleteView
-
 from .forms import RegisterForm, CommentForm, AvatarUploadForm, CreatePostForm
 from .models import Forum, Thread, Post, UserProfile, Comment
 from django.http import HttpResponse, JsonResponse
 from django.views import View
 from django.utils.text import slugify
 import uuid
+from django.shortcuts import redirect
+from django.urls import reverse
 
 
 # Create your views here.
@@ -55,10 +53,6 @@ class PostListView(ListView):
         return context
 
 
-from django.shortcuts import redirect
-from django.urls import reverse
-
-
 class PostDetailView(DetailView):
     model = Post
     slug_field = 'slug'
@@ -84,22 +78,27 @@ class PostDetailView(DetailView):
             comment.save()
 
             # Перенаправление на ту же страницу с постом после добавления комментария
-            return redirect(reverse('post_detail', kwargs={'forum_slug': post.thread.forum.slug,
-                                                           'thread_slug': post.thread.slug,
-                                                           'slug': post.slug}))  # Используем post вместо self.object
+            return redirect(reverse('forum_app:post_detail', kwargs={'forum_slug': post.thread.forum.slug,
+                                                                     'thread_slug': post.thread.slug,
+                                                                     'slug': post.slug}))
 
-        # Если форма не прошла валидацию, обновите контекст с формой и комментариями
         context = self.get_context_data()
         context['comment_form'] = comment_form
         return self.render_to_response(context)
 
 
-class CommentDeleteView(LoginRequiredMixin, DeleteView):
+class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Comment
 
-    def get_success_url(self):
+    def test_func(self):
+        # Эта функция будет вызвана, чтобы проверить, имеет ли пользователь право на удаление комментария
         comment = self.get_object()
-        return reverse('post_detail', kwargs={
+        return self.request.user == comment.created_by
+
+    def get_success_url(self):
+        # Возвращаем URL, куда перейти после успешного удаления комментария
+        comment = self.get_object()
+        return reverse('forum_app:post_detail', kwargs={
             'forum_slug': comment.post.thread.forum.slug,
             'thread_slug': comment.post.thread.slug,
             'slug': comment.post.slug
@@ -107,14 +106,6 @@ class CommentDeleteView(LoginRequiredMixin, DeleteView):
 
 
 # Регистрация
-
-
-@login_required
-def profile_view(request):
-    user_profile = UserProfile.objects.get(user=request.user)
-    return render(request, 'forum_app/profile.html', {'user_profile': user_profile})
-
-
 class RegisterView(FormView):
     form_class = RegisterForm
     template_name = 'registration/register.html'
@@ -135,18 +126,21 @@ def signature(request):
 
 
 def profile_view(request):
-    user_profile = UserProfile.objects.get(user=request.user)
+    if request.user.is_authenticated:
+        user_profile = UserProfile.objects.get(user=request.user)
 
-    if request.method == 'POST':
-        form = AvatarUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            user_profile.avatar = form.cleaned_data['avatar']
-            user_profile.save()
-            return redirect('profile')  # Перенаправление на страницу профиля после загрузки
+        if request.method == 'POST':
+            form = AvatarUploadForm(request.POST, request.FILES)
+            if form.is_valid():
+                user_profile.avatar = form.cleaned_data['avatar']
+                user_profile.save()
+                return redirect('profile')  # Перенаправление на страницу профиля после загрузки
+        else:
+            form = AvatarUploadForm()
+
+        return render(request, 'forum_app/profile.html', {'form': form, 'user_profile': user_profile})
     else:
-        form = AvatarUploadForm()
-
-    return render(request, 'forum_app/profile.html', {'form': form, 'user_profile': user_profile})
+        return redirect('login')
 
 
 class CreatePostView(FormView):
