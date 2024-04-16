@@ -15,20 +15,20 @@
             <button type="submit">Установить</button>
         </form>
     </div>
-        <div class="account_info">
-            <h4 class="account_name">{{ user.username }}</h4>
-            <span>Подпись: {{ user_profile.signature }}</span>
-        </div>
-        <div class="account_btns">
-            <button class="On_main_btn"
-                    onclick="location.href='{% url 'forum_app:forum_list' %}'">На главную
-            </button>
-            <button class="Change_password_btn"
-                    onclick="location.href='{% url 'password_change' %}'">Поменять пароль
-            </button>
+    <div class="account_info">
+        <h4 class="account_name">{{ user.username }}</h4>
+        <span>Подпись: {{ user_profile.signature }}</span>
+    </div>
+    <div class="account_btns">
+        <button class="Change_password_btn"
+                onclick="location.href='{% url 'password_change' %}'">Поменять пароль
+        </button>
+        <form method="post" action="{% url 'logout' %}?next=/profile">
+            {% csrf_token %}
             <button class="Logout_btn"
                     onclick="location.href='{% url 'logout' %}?next=/profile'">Выйти
             </button>
-        </div>
+        </form>
+    </div>
 </div>
 {% endblock %}

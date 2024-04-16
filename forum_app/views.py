@@ -1,3 +1,4 @@
+from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, get_object_or_404
@@ -134,7 +135,7 @@ def profile_view(request):
             if form.is_valid():
                 user_profile.avatar = form.cleaned_data['avatar']
                 user_profile.save()
-                return redirect('profile')  # Перенаправление на страницу профиля после загрузки
+                return redirect('/profile')  # Перенаправление на страницу профиля после загрузки
         else:
             form = AvatarUploadForm()
 
@@ -146,27 +147,21 @@ def profile_view(request):
 class CreatePostView(FormView):
     form_class = CreatePostForm
     template_name = 'forum_app/creation-post.html'
-    success_url = reverse_lazy("create-post")
 
     def form_valid(self, form):
-        # Создаем новый пост, но не сохраняем его пока
         new_post = form.save(commit=False)
-
-        # Генерируем уникальный slug на основе заголовка поста
         unique_slug = f"{slugify(new_post.title)}-{str(uuid.uuid4())[:8]}"
         new_post.slug = unique_slug
-
-        # Устанавливаем автора
         new_post.created_by = self.request.user
-
-        # Сохраняем пост
         new_post.save()
-
         return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('forum_app:create-post')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['threads'] = Thread.objects.all()  # Добавляем темы в контекст
+        context['threads'] = Thread.objects.all()
         return context
 
 

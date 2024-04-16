@@ -18,6 +18,7 @@ urlpatterns = [
     path('register', RegisterView.as_view(), name='register'),
     path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment_delete'),
     path('create-post', CreatePostView.as_view(), name='create-post'),
+    path('logout/', views.logout, name='logout'),
     path('get_threads_for_forum/<int:forum_id>/', GetThreadsForForumView.as_view(), name='get_threads_for_forum'),
 ]
 

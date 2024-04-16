@@ -30,27 +30,34 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-    const forumSelect = document.getElementById('id_forum');
-    const threadSelect = document.getElementById('id_thread');
+        const forumSelect = document.getElementById('id_forum');
+        const threadSelect = document.getElementById('id_thread');
 
-    forumSelect.addEventListener('change', function() {
-        const forumId = this.value;
-        threadSelect.innerHTML = '<option value="">---------</option>';  // Очищаем текущие варианты тем
+        if (forumSelect && threadSelect) {
+            setTimeout(() => {
+                forumSelect.dispatchEvent(new Event('change'));
+            }, 100); // Добавляем небольшую задержку перед вызовом события change
 
-        // Если выбран форум, отправляем AJAX запрос для получения тем этого форума
-        if (forumId) {
-            fetch(`/get_threads_for_forum/${forumId}`)
-                .then(response => response.json())
-                .then(data => {
-                    data.forEach(thread => {
-                        const option = document.createElement('option');
-                        option.value = thread.id;
-                        option.textContent = thread.title;
-                        threadSelect.appendChild(option);
-                    });
-                });
+            forumSelect.addEventListener('change', function() {
+                const forumId = this.value;
+                threadSelect.innerHTML = '<option value="">---------</option>';  // Очищаем текущие варианты тем
+
+                // Если выбран форум, отправляем AJAX запрос для получения тем этого форума
+                if (forumId) {
+                    fetch(`/get_threads_for_forum/${forumId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            data.forEach(thread => {
+                                const option = document.createElement('option');
+                                option.value = thread.id;
+                                option.textContent = thread.title;
+                                threadSelect.appendChild(option);
+                            });
+                        })
+                        .catch(error => console.error("Error fetching data:", error));
+                }
+            });
         }
     });
-});
 </script>
 {% endblock %}
