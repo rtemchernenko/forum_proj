@@ -30,5 +30,22 @@
             </button>
         </form>
     </div>
+    <!-- Список постов пользователя -->
+    <div class="user-posts">
+        <h3>Мои посты:</h3>
+        {% if user_posts %}
+        <ul>
+            {% for post in user_posts %}
+            <li>
+                <a href="{% url 'forum_app:post_detail' forum_slug=post.thread.forum.slug thread_slug=post.thread.slug slug=post.slug %}">
+                    {{ post.title }} ({{ post.created_at }})
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>У вас пока нет постов.</p>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}

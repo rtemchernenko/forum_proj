@@ -126,22 +126,26 @@ def signature(request):
     return render(request, 'forum_app/profile.html', context)
 
 
+@login_required
 def profile_view(request):
-    if request.user.is_authenticated:
-        user_profile = UserProfile.objects.get(user=request.user)
+    user_profile = UserProfile.objects.get(user=request.user)
 
-        if request.method == 'POST':
-            form = AvatarUploadForm(request.POST, request.FILES)
-            if form.is_valid():
-                user_profile.avatar = form.cleaned_data['avatar']
-                user_profile.save()
-                return redirect('/profile')  # Перенаправление на страницу профиля после загрузки
-        else:
-            form = AvatarUploadForm()
+    # Получаем все посты, созданные текущим пользователем
+    user_posts = Post.objects.filter(created_by=request.user).order_by('-created_at')
 
-        return render(request, 'forum_app/profile.html', {'form': form, 'user_profile': user_profile})
-    else:
-        return redirect('login')
+    if request.method == 'POST':
+        form = AvatarUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            user_profile.avatar = form.cleaned_data['avatar']
+            user_profile.save()
+            return redirect('forum_app:profile')  # Используй именованный URL
+
+    form = AvatarUploadForm()
+    return render(request, 'forum_app/profile.html', {
+        'form': form,
+        'user_profile': user_profile,
+        'user_posts': user_posts  # Передаем посты в контекст
+    })
 
 
 class CreatePostView(FormView):

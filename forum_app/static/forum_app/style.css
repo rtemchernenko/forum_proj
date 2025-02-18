@@ -376,3 +376,70 @@ h1{
 .form-container .form-submit-button:hover {
     background-color: #0056b3;
 }
+
+/* Стили для списка постов */
+.user-posts {
+    margin-top: 20px;
+}
+
+.user-posts h3 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.user-posts ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.user-posts ul li {
+    background: #f9f9f9;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.user-posts ul li a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: 500;
+}
+
+.user-posts ul li a:hover {
+    text-decoration: underline;
+}
+
+.user-posts ul li p {
+    margin: 5px 0 0;
+    font-size: 12px;
+    color: #666;
+}
+
+/* Пагинация */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    margin: 0 5px;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #007bff;
+    border: 1px solid #007bff;
+    border-radius: 5px;
+}
+
+.pagination a:hover {
+    background: #007bff;
+    color: #fff;
+}
+
+.pagination .current {
+    margin: 0 5px;
+    padding: 5px 10px;
+    color: #333;
+    font-weight: 500;
