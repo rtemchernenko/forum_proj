@@ -1,9 +1,14 @@
 from django.contrib import admin
-
+from django.apps import apps
 from .models import Forum, Thread, Post, UserProfile, Comment
 
-
 # Register your models here.
+
+app = apps.get_app_config('graphql_auth')
+
+for model_name, model in app.models.items():
+    admin.site.register(model)
+
 
 @admin.register(Forum)
 class ForumAdmin(admin.ModelAdmin):
@@ -15,6 +20,7 @@ class ForumAdmin(admin.ModelAdmin):
 class ThreadAdmin(admin.ModelAdmin):
     list_display = ('title', 'forum', 'started_by', 'created_at')
     prepopulated_fields = {'slug': ('title',)}
+    list_editable = ('forum',)
 
 
 @admin.register(Post)
@@ -26,8 +32,8 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'avatar', 'signature', 'post_count')
-    list_editable = ('signature',)
+    list_display = ('user', 'email', 'avatar', 'signature', 'post_count')
+    list_editable = ('signature', 'email')
 
 
 @admin.register(Comment)

@@ -1,25 +1,19 @@
 from django.contrib import admin
 from django.urls import path
-from . import views
-from .views import ForumListView, ThreadListView, profile_view, RegisterView, PostListView, PostDetailView, \
-    CommentDeleteView, CreatePostView, GetThreadsForForumView
 from django.conf import settings
 from django.conf.urls.static import static
+from graphene_django.views import GraphQLView
+from .schema import schema
+from .views import profile_view, RegisterView
+from . import views
 
 app_name = 'forum_app'
 
 urlpatterns = [
-    path('forums/', ForumListView.as_view(), name='forum_list'),
-    path('forums/<slug:forum_slug>/threads/', ThreadListView.as_view(), name='thread_list'),
-    path('forums/<slug:forum_slug>/threads/<slug:thread_slug>/posts/', PostListView.as_view(), name='post_list'),
-    path('forums/<slug:forum_slug>/threads/<slug:thread_slug>/posts/<slug:slug>/', PostDetailView.as_view(),
-         name='post_detail'),
-    path('profile', profile_view, name='profile'),
-    path('register', RegisterView.as_view(), name='register'),
-    path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment_delete'),
-    path('create-post', CreatePostView.as_view(), name='create-post'),
+    path('profile/', profile_view, name='profile'),
+    path('register/', RegisterView.as_view(), name='register'),
     path('logout/', views.logout, name='logout'),
-    path('get_threads_for_forum/<int:forum_id>/', GetThreadsForForumView.as_view(), name='get_threads_for_forum'),
+    path('graphql/', GraphQLView.as_view(graphiql=True, schema=schema)),  # GraphQL API
 ]
 
 if settings.DEBUG:

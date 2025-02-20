@@ -52,6 +52,7 @@ class Post(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    email = models.EmailField(blank=False, max_length=255, verbose_name="email")
     avatar = models.ImageField(upload_to='avatars/', blank=True, default='avatars/avatar13.jpg')
     signature = models.CharField(max_length=200, blank=True)
     post_count = models.PositiveIntegerField(default=0)
